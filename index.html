@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tyler Wong — Embedded Systems Engineer</title>
+  <meta name="description" content="Computer engineer (UMD) working in embedded firmware, hardware security, and IoT test/validation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="style.css">
+  <script src="main.js" defer></script>
+</head>
+<body>
+  <nav class="wrap nav">
+    <a class="mark" href="#top" aria-label="Tyler Wong, back to top">TW</a>
+    <div>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <header class="wrap hero" id="top">
+    <div class="hero-text">
+      <h1><span class="line"><span>Tyler</span></span><span class="line"><span>Wong</span></span></h1>
+      <p class="tagline">Embedded firmware · Hardware security · IoT test &amp; validation</p>
+      <p class="lede">Computer engineer from the University of Maryland. I write C for STM32 boards running FreeRTOS,
+        build MQTT testbenches, and take systems apart in Ghidra. Looking for embedded, firmware test, and validation
+        roles in the DC/Baltimore area.</p>
+      <p class="links">
+        <a class="btn" href="mailto:tylerwong03@gmail.com">Email me</a>
+        <a class="btn ghost" href="https://linkedin.com/in/tyler-wong-compe-umd">LinkedIn</a>
+        <!-- <a class="btn ghost" href="https://github.com/YOURNAME">GitHub</a> -->
+      </p>
+    </div>
+
+    <figure class="scope" tabindex="0" aria-label="Interactive oscilloscope. Move the pointer, or use arrow keys, to change frequency and amplitude.">
+      <canvas id="scope"></canvas>
+      <figcaption>
+        <span class="ch1">CH1 sensor</span>
+        <span class="ch2">CH2 I2C SCL</span>
+        <span id="readout">1.20 kHz · 3.3 Vpp</span>
+      </figcaption>
+    </figure>
+  </header>
+
+  <section class="wrap stats" aria-label="At a glance">
+    <div><b data-n="159">159</b><span>of 159 Pintos kernel tests passed</span></div>
+    <div><b data-n="3">3</b><span>FreeRTOS tasks on the myDACQ board</span></div>
+    <div><b data-n="2">2</b><span>NIST research fellowships</span></div>
+    <div><b data-n="3">3</b><span>years in security operations</span></div>
+  </section>
+
+  <div class="belt" aria-hidden="true">
+    <div class="belt-track">
+      <span>C/C++</span><span>STM32 HAL</span><span>FreeRTOS</span><span>I2C</span><span>UART</span><span>MQTT</span><span>MessagePack</span><span>Ghidra</span><span>Verilog</span><span>Raspberry Pi</span><span>Wireshark</span><span>Python</span><span>x86 / MIPS</span>
+      <span>C/C++</span><span>STM32 HAL</span><span>FreeRTOS</span><span>I2C</span><span>UART</span><span>MQTT</span><span>MessagePack</span><span>Ghidra</span><span>Verilog</span><span>Raspberry Pi</span><span>Wireshark</span><span>Python</span><span>x86 / MIPS</span>
+    </div>
+  </div>
+
+  <main>
+    <section id="projects" class="wrap">
+      <h2>Selected work</h2>
+      <div class="bento">
+        <!-- To add a live demo to a card: put it in demos/<name>/index.html, then add
+             <a class="demo" href="demos/<name>/">Try it live →</a> inside the card. -->
+        <article class="card flagship">
+          <svg class="art" viewBox="0 0 560 140" aria-hidden="true">
+            <path class="wire" d="M92 70H140M320 70H372M448 70H484"/>
+            <text x="100" y="60">I2C</text><text x="324" y="60">MQTT</text>
+            <rect x="8" y="50" width="84" height="40" rx="6"/><text x="22" y="75">M24SR</text>
+            <rect x="140" y="16" width="180" height="108" rx="8"/><text x="152" y="38">STM32L475 · FreeRTOS</text>
+            <rect class="task" x="152" y="56" width="50" height="50" rx="5"/><text x="162" y="86">acq</text>
+            <rect class="task" x="208" y="56" width="50" height="50" rx="5"/><text x="214" y="86">pack</text>
+            <rect class="task" x="264" y="56" width="50" height="50" rx="5"/><text x="276" y="86">pub</text>
+            <rect x="372" y="50" width="76" height="40" rx="6"/><text x="384" y="75">broker</text>
+            <rect x="484" y="50" width="68" height="40" rx="6"/><text x="506" y="75">PC</text>
+          </svg>
+          <h3>myDACQ data acquisition system</h3>
+          <p class="meta">ENEE452 Embedded Systems · STM32 B-L475E-IOT01A</p>
+          <ul>
+            <li>Two-phase DAQ in C (HAL, FreeRTOS): M24SR NFC/EEPROM sensor over I2C feeding three tasks via message queues, MessagePack-encoded readings, serial command interface.</li>
+            <li>Extended over WiFi (ISM43362) with a board-side MQTT client publishing to a custom broker and a real-time PC display client.</li>
+          </ul>
+          <p class="tags"><span>C</span><span>FreeRTOS</span><span>I2C</span><span>MQTT</span></p>
+        </article>
+
+        <article class="card">
+          <div class="art pages" aria-hidden="true"></div>
+          <h3>Pintos OS kernel</h3>
+          <p class="meta">File systems &amp; virtual memory · C, x86</p>
+          <ul>
+            <li>Indexed inodes, subdirectories, buffer cache with write-behind and read-ahead.</li>
+            <li>Demand-paged VM with swap and mmap; passed the full 159-test suite.</li>
+          </ul>
+          <p class="tags"><span>C</span><span>x86</span><span>OS</span></p>
+        </article>
+
+        <article class="card">
+          <svg class="art" viewBox="0 0 260 100" aria-hidden="true">
+            <rect class="bar b1" x="10" y="70" width="36" height="20" rx="3"/>
+            <rect class="bar b2" x="60" y="56" width="36" height="34" rx="3"/>
+            <rect class="bar b3" x="110" y="40" width="36" height="50" rx="3"/>
+            <rect class="bar b4" x="160" y="24" width="36" height="66" rx="3"/>
+            <rect class="bar b5" x="210" y="6" width="36" height="84" rx="3"/>
+          </svg>
+          <h3>Password strength checker</h3>
+          <p class="meta">ENEE457 Computer Systems Security · Sep–Dec 2025</p>
+          <ul>
+            <li>Classifies password strength with ML models trained on popular password datasets.</li>
+            <li>Turns memorable strings into strong passwords; co-authored the report.</li>
+          </ul>
+          <p class="tags"><span>Python</span><span>ML</span><span>Security</span></p>
+        </article>
+
+        <article class="card">
+          <div class="art keys" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <h3>BOZOPAD macropad kit</h3>
+          <p class="meta">Club / passion project · Oct 2021–Jun 2022</p>
+          <ul>
+            <li>DIY 12-key macropad; managed a limited production run.</li>
+            <li>Co-developed the through-hole PCB, firmware (.hex), and assembly guide.</li>
+          </ul>
+          <p class="tags"><span>PCB</span><span>Firmware</span></p>
+        </article>
+      </div>
+    </section>
+
+    <section id="experience" class="wrap">
+      <h2>Experience</h2>
+      <ol class="timeline">
+        <li>
+          <p class="when">May 2023 – now</p>
+          <div>
+            <h3>Cyber Security Operations Associate <span>· Untethered Labs (GateKeeper Proximity)</span></h3>
+            <ul>
+              <li>Technical support for a proximity-based MFA and auto-lock product for Windows workstations; maintain the company website.</li>
+              <li>Researched and wrote articles for an IT wiki and technical resources for internal teams.</li>
+              <li>Built internal Python tools, including a GUI PDF quote generator driven by an Excel pricing workbook.</li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <p class="when">May – Aug 2025</p>
+          <div>
+            <h3>Research Fellow, IoT Interoperability Testbench <span>· NIST</span></h3>
+            <ul>
+              <li>Built IoT testbenches simulating smart-home integration over MQTT; tested physical (Raspberry Pi) and digital (Node-RED) versions for interoperability.</li>
+              <li>Documented the testbed and presented a lecture on methodology and results.</li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <p class="when">Jun – Aug 2024</p>
+          <div>
+            <h3>Research Fellow, C-V2X Conformance Tool <span>· NIST</span></h3>
+            <ul>
+              <li>Built an IoT Device Interoperability Analyzer that checks packet data for conformance to C-V2X protocols.</li>
+              <li>Co-authored the official publication describing the tool.</li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <p class="when">Oct 2022 – May 2023</p>
+          <div>
+            <h3>Sensor Acquisition &amp; Testing <span>· Terps Racing Formula EV</span></h3>
+            <ul>
+              <li>Procured sensors and data used to tune power delivery, suspension, and brakes for a Formula SAE Electric car.</li>
+            </ul>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section id="skills" class="wrap">
+      <h2>Toolkit</h2>
+      <div class="skills">
+        <div class="card">
+          <h3>Embedded &amp; firmware</h3>
+          <p>C/C++, STM32 HAL, FreeRTOS, STM32CubeIDE, I2C, UART, MQTT, MessagePack (CWPack), Arduino, x64/MIPS Assembly</p>
+        </div>
+        <div class="card">
+          <h3>Hardware &amp; test</h3>
+          <p>STM32L475 (ARM Cortex-M), Raspberry Pi, oscilloscope, waveform generator, FPGA, soldering, Wireshark, PSpice, Vivado, Verilog, Fusion 360</p>
+        </div>
+        <div class="card">
+          <h3>Security &amp; tools</h3>
+          <p>Ghidra, Python, Git, UNIX/WSL, Node-RED, Java, MATLAB, MySQL, Excel, XML, LaTeX</p>
+        </div>
+      </div>
+      <div class="edu">
+        <p><strong>University of Maryland, College Park</strong><br>B.S. Computer Engineering · Minor in Technology Entrepreneurship · May 2026</p>
+        <p class="meta">Embedded Systems · Reverse Engineering &amp; Hardware Security · Computer Architecture · Digital Logic Design · Cryptography · Programming Languages</p>
+      </div>
+    </section>
+
+    <section id="contact" class="wrap contact">
+      <h2>Let's put something on a board</h2>
+      <p>Open to embedded, firmware test, and validation roles in the DC/Baltimore area.</p>
+      <p class="links">
+        <a class="btn" href="mailto:tylerwong03@gmail.com">tylerwong03@gmail.com</a>
+        <a class="btn ghost" href="https://linkedin.com/in/tyler-wong-compe-umd">LinkedIn</a>
+      </p>
+    </section>
+  </main>
+
+  <footer>© 2026 Tyler Wong</footer>
+</body>
+</html>
