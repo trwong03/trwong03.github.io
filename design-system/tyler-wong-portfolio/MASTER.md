@@ -18,11 +18,11 @@ light "moss and paper", dark "sumi ink", terracotta as the second accent.
 | --muted | #a59e90 | #6b6457 |
 | --line | #3d3b37 | #d8d0be |
 | --accent (moss, CH1) | #9daa62 | #5e6b2f |
-| --accent-2 (terracotta, CH2) | #c98a68 | #9a5a3c |
+| --accent-2 (terracotta) | #c98a68 | #93553a |
 
 Theme: `theme.js` sets `data-theme` before paint (saved choice, else system); the switch beside the name saves the choice, and the demo iframe follows via the `storage` event. No JS = dark.
 
-All text pairs >= 4.5:1. Contrast-risky: light accent-2 on --bg is 4.41:1, so use it for graphics only, or as text on --surface (4.86:1).
+All text pairs >= 4.5:1. Terracotta carries the details (stat numbers, bullets, tags, timeline dots, side rail); moss keeps the name, buttons and switch. Light accent-2 darkened to #93553a so it passes 4.5:1 on --bg (4.77:1).
 
 ## Type
 - Display + interface: Archivo (400–800, width axis 100–125 for display).

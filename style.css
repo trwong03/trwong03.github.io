@@ -25,7 +25,7 @@
   --line: #d8d0be;
   --accent: #5e6b2f;
   --accent-ink: #f7f3ea;
-  --accent-2: #9a5a3c;
+  --accent-2: #93553a;
   color-scheme: light;
 }
 
@@ -74,7 +74,7 @@ h1 .line:nth-child(2) > span { animation-delay: 0.09s; color: var(--accent); }
 /* Stats */
 .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; padding: 0; max-width: 1088px; margin-inline: max(16px, calc((100% - 1088px) / 2)); }
 .stats > div { background: var(--surface); padding: 24px; }
-.stats b { display: block; font-size: 48px; font-weight: 800; font-stretch: 110%; line-height: 1; font-variant-numeric: tabular-nums; color: var(--accent); }
+.stats b { display: block; font-size: 48px; font-weight: 800; font-stretch: 110%; line-height: 1; font-variant-numeric: tabular-nums; color: var(--accent-2); }
 .stats span { display: block; margin-top: 8px; color: var(--muted); font-size: 15px; }
 
 
@@ -86,7 +86,7 @@ h3 span { font-weight: 400; color: var(--muted); }
 .meta { font: 13px/1.6 var(--mono); color: var(--muted); margin: 0 0 12px; }
 ul { padding-left: 1.1em; margin: 8px 0; }
 li { margin-bottom: 6px; }
-li::marker { color: var(--accent); }
+li::marker { color: var(--accent-2); }
 
 /* Bento */
 .bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
@@ -96,7 +96,7 @@ li::marker { color: var(--accent); }
 .bento .card ul { flex: 1; font-size: 16px; }
 .bento .flagship { grid-column: span 6; background: color-mix(in oklab, var(--accent) 8%, var(--surface)); border-color: color-mix(in oklab, var(--accent) 30%, var(--line)); }
 .tags { display: flex; gap: 6px; flex-wrap: wrap; margin: 14px 0 0; }
-.tags span { font: 12px var(--mono); padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); }
+.tags span { font: 12px var(--mono); padding: 3px 10px; border: 1px solid var(--accent-2); border-radius: 999px; color: var(--accent-2); }
 .demo { display: inline-block; margin-top: 14px; font-weight: 650; text-decoration: none; }
 .bento .wide { grid-column: span 6; display: grid; grid-template-columns: 1fr 1.6fr; gap: 24px; align-items: start; }
 .wide iframe { width: 100%; height: 540px; border: 1px solid var(--line); border-radius: 6px; }
@@ -127,7 +127,7 @@ svg.art .b5 { fill: var(--accent); }
 .timeline { list-style: none; padding: 0; margin: 0; position: relative; }
 .timeline::before { content: ""; position: absolute; left: 180px; top: 10px; bottom: 10px; width: 1px; background: var(--line); }
 .timeline > li { display: grid; grid-template-columns: 180px 1fr; gap: 0 40px; margin-bottom: 40px; position: relative; }
-.timeline > li::before { content: ""; position: absolute; left: 175px; top: 8px; width: 11px; height: 11px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); }
+.timeline > li::before { content: ""; position: absolute; left: 175px; top: 8px; width: 11px; height: 11px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent-2); }
 .when { font: 13px/1.9 var(--mono); color: var(--muted); margin: 0; }
 
 /* Skills */
@@ -169,12 +169,12 @@ main { padding-bottom: 96px; }
   .nav { display: none; }
   .rail { display: block; position: fixed; top: 0; right: 0; bottom: 0; width: 28px; z-index: 10; }
   .rail::before { content: ""; position: absolute; top: 16px; bottom: 16px; right: 8px; width: 1px; background: var(--line); }
-  .rail-fill { position: absolute; top: 16px; right: 7.5px; width: 2px; height: calc((100% - 32px) * var(--p, 0)); background: var(--accent); }
+  .rail-fill { position: absolute; top: 16px; right: 7.5px; width: 2px; height: calc((100% - 32px) * var(--p, 0)); background: var(--accent-2); }
   .rail a { position: absolute; right: 0; top: var(--y); transform: translateY(-50%); display: flex; flex-direction: row-reverse; align-items: center; gap: 10px; padding: 10px 4px 10px 0; text-decoration: none; font: 15px var(--mono); color: var(--muted); white-space: nowrap; }
   .rail a::before { content: ""; width: 12px; height: 1px; background: var(--muted); transition: width 0.2s; }
   .rail a span { background: var(--bg); padding: 2px 6px; border-radius: 4px; opacity: 0; pointer-events: none; transform: translateX(4px); transition: opacity 0.2s, transform 0.2s; }
   .rail:hover a span, .rail:focus-within a span, .rail a.on span { opacity: 1; transform: none; pointer-events: auto; }
   .rail a:hover, .rail a:focus-visible { color: var(--text); }
-  .rail a.on { color: var(--accent); }
-  .rail a.on::before { width: 22px; height: 2px; background: var(--accent); }
+  .rail a.on { color: var(--accent-2); }
+  .rail a.on::before { width: 22px; height: 2px; background: var(--accent-2); }
 }
