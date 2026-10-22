@@ -103,7 +103,10 @@ li::marker { color: var(--accent); }
 .bento .flagship { grid-column: span 6; background: color-mix(in oklab, var(--accent) 8%, var(--surface)); border-color: color-mix(in oklab, var(--accent) 30%, var(--line)); }
 .tags { display: flex; gap: 6px; flex-wrap: wrap; margin: 14px 0 0; }
 .tags span { font: 12px var(--mono); padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); }
-.demo { margin-top: 14px; font-weight: 650; text-decoration: none; }
+.demo { display: inline-block; margin-top: 14px; font-weight: 650; text-decoration: none; }
+.bento .wide { grid-column: span 6; display: grid; grid-template-columns: 1fr 1.6fr; gap: 24px; align-items: start; }
+.wide iframe { width: 100%; height: 540px; border: 1px solid var(--line); border-radius: 6px; }
+@media (max-width: 860px) { .bento .wide { grid-template-columns: 1fr; } }
 
 /* Card art */
 .art { display: block; width: 100%; height: 130px; margin-bottom: 20px; }
