@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Password Mutator — live demo</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../../style.css?v=7">
+  <script src="../../theme.js?v=7"></script>
+  <style>
+    body { background: var(--surface); padding: 16px; }
+    form { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; }
+    label { font-size: 14px; color: var(--muted); display: grid; gap: 6px; }
+    input { font: 16px var(--mono); color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; min-height: 44px; width: 100%; }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .btn { min-height: 44px; padding: 0 16px; font-size: 15px; border: 0; cursor: pointer; font-family: inherit; }
+    .btn.ghost { border: 1px solid var(--line); }
+    .btn:disabled { opacity: 0.5; cursor: wait; }
+    #handson { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+    #current { font: 500 20px var(--mono); color: var(--accent); word-break: break-all; margin: 4px 0; }
+    #status { font-size: 14px; color: var(--muted); min-height: 1.6em; margin: 12px 0 4px; }
+    #out { font: 13px/1.6 var(--mono); white-space: pre-wrap; word-break: break-all; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 12px; height: 150px; overflow-y: auto; margin: 0; }
+    @media (max-width: 480px) { form { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <form id="setup" onsubmit="return false">
+    <label>Password base <input id="base" value="correct horse" maxlength="64" autocomplete="off" spellcheck="false"></label>
+    <label>Minimum length <input id="len" type="number" min="1" max="64" step="1" value="16" required></label>
+  </form>
+
+  <div class="row">
+    <button class="btn" id="iterate">Mutate (best of 100)</button>
+    <button class="btn ghost" id="oneshot">One shot</button>
+    <button class="btn ghost" id="start">Hands-on mode</button>
+  </div>
+
+  <div id="handson" hidden>
+    <div class="meta">Current password · heuristic entropy <span id="ent"></span></div>
+    <p id="current"></p>
+    <div class="row">
+      <button class="btn ghost" data-cmd="length">Change length</button>
+      <button class="btn ghost" data-cmd="repeat">Repeat chunk</button>
+      <button class="btn ghost" data-cmd="caps">Randomize caps</button>
+      <button class="btn ghost" data-cmd="leet">Leet</button>
+      <button class="btn ghost" data-cmd="replace">Randomly replace</button>
+      <button class="btn ghost" data-cmd="reverse">Reverse</button>
+      <button class="btn ghost" data-cmd="undo">Undo</button>
+    </div>
+  </div>
+
+  <p id="status" role="status"></p>
+  <div id="out" aria-live="polite" aria-label="Program output"></div>
+
+  <script>
+    // Runs the original Password_Mutator.py unchanged via Pyodide; this script only replaces its CLI.
+    const $ = (id) => document.getElementById(id);
+    const out = $("out");
+    const log = (s) => { out.textContent += s + "\n"; out.scrollTop = out.scrollHeight; };
+    const f = (x) => x.toFixed(2);
+    let pyReady = null, PasswordMutator = null, m = null, strs = [];
+
+    function loadPython() {
+      pyReady ??= new Promise((resolve, reject) => {
+        const s = document.createElement("script");
+        s.src = "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js";
+        s.onload = resolve;
+        s.onerror = () => reject(new Error("Could not load Pyodide. Check your connection."));
+        document.head.append(s);
+      }).then(async () => {
+        const py = await loadPyodide();
+        py.setStdout({ batched: log });
+        const res = await fetch("Password_Mutator.py");
+        if (!res.ok) throw new Error("Could not fetch Password_Mutator.py");
+        py.FS.writeFile("Password_Mutator.py", await res.text());
+        py.runPython("import sys; sys.path.insert(0, '.')");
+        PasswordMutator = py.pyimport("Password_Mutator").PasswordMutator;
+      }).catch((e) => { pyReady = null; throw e; });
+      return pyReady;
+    }
+
+    const buttons = () => document.querySelectorAll("button");
+    async function run(fn) {
+      if (!$("setup").reportValidity()) return;
+      buttons().forEach((b) => (b.disabled = true));
+      try {
+        if (!PasswordMutator) {
+          $("status").textContent = "Loading Python in your browser (first run only, about 10 MB)…";
+          await loadPython();
+        }
+        $("status").textContent = "";
+        fn();
+      } catch (e) {
+        $("status").textContent = "";
+        log("Error: " + e.message);
+      } finally {
+        buttons().forEach((b) => (b.disabled = false));
+      }
+    }
+
+    // Same arguments as the CLI: PasswordMutator(pw, minimum_length, 60.0, 100)
+    function newMutator() {
+      m?.destroy();
+      m = PasswordMutator($("base").value, Number($("len").value), 60.0, 100);
+    }
+
+    // Mode 0
+    $("iterate").onclick = () => run(() => {
+      log("— Mutate (best of 100) —");
+      newMutator();
+      const mutated = m.mutate_total();
+      log("Final heuristic entropy: " + f(m.heuristic_entropy(mutated)));
+      log("Computed password: " + mutated);
+    });
+
+    // Mode 1
+    $("oneshot").onclick = () => run(() => {
+      log("— One shot —");
+      const pw = $("base").value;
+      newMutator();
+      log("Original heuristic entropy: " + f(m.heuristic_entropy(pw)));
+      let mutated = m.mutate_to_length(pw);
+      log("Length-mutated heuristic entropy: " + f(m.heuristic_entropy(mutated)));
+      log("Length Mutated Password: " + mutated);
+      mutated = m.mutate_to_entropy(mutated);
+      log("Character-mutated heuristic entropy: " + f(m.heuristic_entropy(mutated)));
+      log("Final Mutated password: " + mutated);
+    });
+
+    // Mode 2
+    function render() {
+      const curr = strs[strs.length - 1];
+      $("current").textContent = curr || "(empty)";
+      $("ent").textContent = f(m.heuristic_entropy(curr));
+    }
+    $("start").onclick = () => run(() => {
+      log("— Hands-on mode —");
+      newMutator();
+      strs = [$("base").value];
+      $("handson").hidden = false;
+      render();
+    });
+    const commands = {
+      length: (c) => { m.minimum_length = Number($("len").value); return m.mutate_to_length(c); },
+      repeat: (c) => m.repeat_section(c, m.base.length),
+      caps: (c) => m.mutate_case(c, 2),
+      leet: (c) => m.substitute_character(c, 9),
+      replace: (c) => m.mutate_characters(c, 6),
+      reverse: (c) => m.reverse(c),
+    };
+    document.querySelectorAll("[data-cmd]").forEach((b) => {
+      b.onclick = () => run(() => {
+        const cmd = b.dataset.cmd;
+        if (cmd === "undo") { if (strs.length > 1) strs.pop(); }
+        else strs.push(commands[cmd](strs[strs.length - 1]));
+        render();
+      });
+    });
+  </script>
+</body>
+</html>
