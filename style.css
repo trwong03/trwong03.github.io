@@ -127,8 +127,22 @@ li::marker { color: var(--accent-2); }
 .tags { display: flex; gap: 6px; flex-wrap: wrap; margin: 14px 0 0; }
 .tags span { font: 12px var(--mono); padding: 3px 10px; border: 1px solid var(--accent-2); border-radius: 999px; color: var(--accent-2); }
 .demo { display: inline-block; margin-top: 14px; font-weight: 650; text-decoration: none; }
-.bento .wide { grid-column: span 6; display: grid; grid-template-columns: 1fr 1.6fr; gap: 24px; align-items: start; }
-.wide iframe { width: 100%; height: 540px; border: 1px solid var(--line); border-radius: 6px; }
+.bento .wide { grid-column: span 6; display: grid; grid-template-columns: 1fr 1.6fr; gap: 24px; }
+/* Both columns stretch to the row height: tags sit at the bottom left, the iframe fills down to "Open full page" */
+.wide > div { display: flex; flex-direction: column; }
+.bento .wide ul { flex: none; }
+.wide p.demo { margin: auto 0 0; padding-top: 14px; }
+.wide .tags { margin-top: 16px; }
+.wide .demo-side { align-items: flex-end; }
+.wide iframe { display: block; flex: 1; width: 100%; min-height: 540px; border: 1px solid var(--line); border-radius: 6px; }
+/* Report figure viewer under a wide card: one figure at a time, prev/next buttons */
+.wide .gallery { grid-column: 1 / -1; }
+.gallery figure { margin: 0; }
+.gallery img { display: block; width: 100%; height: 360px; object-fit: contain; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; }
+.gallery figcaption { font: 13px/1.6 var(--mono); color: var(--muted); margin-top: 8px; }
+.gallery-nav { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+.gallery-nav .btn { min-width: 44px; justify-content: center; }
+.gallery-nav .count { font: 13px var(--mono); color: var(--muted); }
 .bento .span4 { grid-column: span 4; }
 .bento .span3 { grid-column: span 3; }
 @media (max-width: 860px) { .bento .wide { grid-template-columns: 1fr; } }
@@ -143,19 +157,13 @@ svg.art .wire { fill: none; stroke: var(--accent-2); stroke-width: 2; stroke-das
 svg.art .rej { fill: none; stroke: var(--muted); stroke-dasharray: 3 4; }
 svg.art .grid { fill: none; stroke: var(--line); }
 svg.art .hit { fill: var(--accent-2); font-weight: 500; }
-svg.art .bar { stroke: none; }
-svg.art .b1 { fill: var(--line); }
-svg.art .b2 { fill: color-mix(in oklab, var(--accent) 30%, var(--line)); }
-svg.art .b3 { fill: color-mix(in oklab, var(--accent) 55%, var(--line)); }
-svg.art .b4 { fill: color-mix(in oklab, var(--accent) 80%, var(--line)); }
-svg.art .b5 { fill: var(--accent); }
 .pages { display: grid; grid-template-columns: repeat(16, 1fr); gap: 4px; align-content: center; }
 .pages span { aspect-ratio: 1; border-radius: 3px; background: var(--surface-2); border: 1px solid var(--line); }
 .pages .res { background: color-mix(in oklab, var(--accent) 60%, var(--surface-2)); border-color: transparent; }
 .pages .swap { background: transparent; border: 1px dashed var(--accent-2); }
-.keys { display: grid; grid-template-columns: repeat(4, 44px); grid-auto-rows: 36px; gap: 6px; justify-content: start; align-content: center; }
-.keys span { border-radius: 7px; background: var(--surface-2); border: 1px solid var(--line); }
-.keys span:hover { background: var(--accent); }
+/* BOZOPAD photos: two squares filling the card width, whole image shown */
+.photos { height: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.photos img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; }
 
 /* Timeline */
 .timeline { list-style: none; padding: 0; margin: 0; position: relative; }
@@ -224,3 +232,8 @@ main { padding-bottom: 96px; }
   .rail a.on { color: var(--accent-2); }
   .rail a.on::before { width: 22px; height: 2px; background: var(--accent-2); }
 }
+/* Image zoom (main.js): click an image to see it large */
+.photos img, .gallery img { cursor: zoom-in; }
+.zoom { max-width: calc(100vw - 32px); max-height: calc(100vh - 32px); padding: 0; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); cursor: zoom-out; }
+.zoom img { display: block; max-width: calc(100vw - 34px); max-height: calc(100vh - 34px); }
+.zoom::backdrop { background: color-mix(in oklab, var(--bg) 85%, transparent); }

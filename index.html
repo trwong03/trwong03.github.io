@@ -8,9 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="style.css?v=9">
+  <link rel="stylesheet" href="style.css?v=18">
   <script src="theme.js?v=7"></script>
-  <script src="main.js?v=9" defer></script>
+  <script src="main.js?v=11" defer></script>
 </head>
 <body>
   <nav class="wrap nav">
@@ -40,8 +40,10 @@
       <p class="tagline">B.S. Computer Engineering (UMD, College Park)</p>
       <p class="lede">Hands-on experience in embedded firmware (STM32, FreeRTOS), hardware security, and IoT interoperability testing/validation. Seeking embedded systems, firmware test, validation, or integration engineering roles in the Maryland/DC area.</p>
       <p class="links">
-        <a class="btn" href="mailto:tylerwong03@gmail.com">tylerwong03@gmail.com</a>
-        <a class="btn ghost" href="https://linkedin.com/in/tyler-wong-compeng">LinkedIn</a>
+        <a class="btn" href="mailto:tylerwong03@gmail.com">Contact Me</a>
+        <!-- placeholder: point href at the resume PDF once it is in the repo -->
+        <a class="btn ghost" href="#">View Resume</a>
+        <a class="btn ghost" href="https://linkedin.com/in/tyler-wong-compeng">View LinkedIn</a>
       </p>
     </div>
     <figure class="portrait">
@@ -69,7 +71,7 @@
             <rect x="372" y="50" width="76" height="40" rx="6"/><text x="384" y="75">broker</text>
             <rect x="484" y="50" width="68" height="40" rx="6"/><text x="506" y="75">PC</text>
           </svg>
-          <h3>myDACQ data acquisition system</h3>
+          <h3>myDACQ Data Acquisition System</h3>
           <p class="meta">ENEE452 Embedded Systems · STM32 B-L475E-IOT01A</p>
           <ul>
             <li>Two-phase DAQ in C (HAL, FreeRTOS): M24SR NFC/EEPROM sensor over I2C feeding three tasks via message queues, MessagePack-encoded readings, serial command interface.</li>
@@ -78,32 +80,61 @@
           <p class="tags"><span>C</span><span>FreeRTOS</span><span>I2C</span><span>MQTT</span></p>
         </article>
 
-        <article class="card span4">
-          <svg class="art" viewBox="0 0 420 110" aria-hidden="true">
-            <path class="wire" d="M56 44H84M124 44H152M192 44H220M292 44H320M360 44H384"/>
-            <path class="rej" d="M104 64V88M172 64V88M240 64V88M340 64V88M90 96H354"/>
-            <rect x="8" y="20" width="48" height="48" rx="4"/>
-            <path class="grid" d="M24 20V68M40 20V68M8 36H56M8 52H56"/>
-            <rect class="task" x="84" y="28" width="40" height="32" rx="4"/><text x="95" y="49">S1</text>
-            <rect class="task" x="152" y="28" width="40" height="32" rx="4"/><text x="163" y="49">S2</text>
-            <rect class="task" x="220" y="28" width="40" height="32" rx="4"/><text x="231" y="49">S3</text>
-            <text x="270" y="49">…</text>
-            <rect class="task" x="320" y="28" width="40" height="32" rx="4"/><text x="331" y="49">SN</text>
-            <text class="hit" x="388" y="49">face</text>
-            <text x="184" y="108">reject</text>
-          </svg>
-          <h3>Embedded face detector</h3>
+        <article class="card wide">
+          <div>
+          <h3>Embedded Face Detector</h3>
           <p class="meta">Embedded Systems Design team project · Mar–May 2026</p>
           <ul>
             <li>Viola-Jones face detector in C++ built as a Welter-C++ dataflow graph: a cascade of N boosted strong-classifier actors passing pointer-based image sub-window tokens, with no OpenCV.</li>
             <li>AdaBoost training module that generates per-classifier config files, plus Bash scripts automating design space exploration of latency, detection rate, and false-positive rate on cross-compiled builds.</li>
           </ul>
+          <p class="demo">Try the trained cascade here! →</p>
           <p class="tags"><span>C++</span><span>Dataflow</span><span>AdaBoost</span><span>Bash</span></p>
+          </div>
+          <div class="demo-side">
+            <iframe src="demos/face-detector/?v=2" title="Face detector live demo" loading="lazy"></iframe>
+            <a class="demo" href="demos/face-detector/">Open full page →</a>
+          </div>
+          <!-- Figures from the team's project report; main.js steps through them -->
+          <div class="gallery" role="group" aria-roledescription="carousel" aria-label="Report figures">
+            <figure><img src="images/efds/1-state-diagram.png" width="731" height="471" alt="State diagram of the classifier actor: configure, read, classify, then true or false, which loop back to read."><figcaption>Figure 1: Classifier actor state diagram</figcaption></figure>
+            <figure hidden><img src="images/efds/2-haar-features.png" width="480" height="480" loading="lazy" alt="The selected Haar features overlaid on a 24 by 24 pixel face."><figcaption>Figure 2: Selected Haar features on an example face</figcaption></figure>
+            <figure hidden><img src="images/efds/3-dataflow.jpg" width="1400" height="478" loading="lazy" alt="Dataflow graph: file source, a chain of strong classifiers each with a non-face reject sink, ending in a detection sink that writes metrics."><figcaption>Figure 3: Classifier dataflow graph</figcaption></figure>
+            <figure hidden><img src="images/efds/4-training.png" width="929" height="212" loading="lazy" alt="Training flow: add weak classifiers until the stage meets its max false positive rate, then pass positives to the next stage."><figcaption>Figure 4: Cascade training flow</figcaption></figure>
+            <figure hidden><img src="images/efds/5b-accuracy-vs-latency.png" width="1200" height="742" loading="lazy" alt="Scatter plot of 1 minus F-measure against average latency for 10 configurations; config-7 is lowest and fastest among accurate ones."><figcaption>Figure 5b: Accuracy vs. latency of 10 trained configurations</figcaption></figure>
+            <figure hidden><img src="images/efds/5c-tpr-vs-fpr.png" width="1200" height="742" loading="lazy" alt="Scatter plot of 1 minus true positive rate against false positive rate for 10 configurations."><figcaption>Figure 5c: TPR vs. FPR of 10 trained configurations</figcaption></figure>
+            <figure hidden><img src="images/efds/6-gantt.png" width="1168" height="757" loading="lazy" alt="Gantt chart of project tasks from March to May 2026."><figcaption>Figure 6: Project Gantt chart</figcaption></figure>
+            <div class="gallery-nav">
+              <button class="btn ghost" type="button" data-step="-1" aria-label="Previous figure">←</button>
+              <span class="count" aria-live="polite">1 / 7</span>
+              <button class="btn ghost" type="button" data-step="1" aria-label="Next figure">→</button>
+            </div>
+          </div>
         </article>
 
-        <article class="card">
+        <article class="card wide">
+          <div>
+            <h3>Password Strength Checker &amp; Mutator</h3>
+            <p class="meta">Computer Systems Security research · Sep–Dec 2025</p>
+            <ul>
+              <li>Classifies password strength with ML models trained on popular password datasets.</li>
+              <li>Co-authored the report on findings and methodology.</li>
+            </ul>
+            <p>The mutator turns a memorable base phrase into a stronger password. It pads the phrase to a minimum length,
+              then applies leetspeak, case flips, and random character swaps until a heuristic entropy score reaches its
+              target. The original Python runs live in your browser.</p>
+            <p class="demo">Try it out here! →</p>
+            <p class="tags"><span>Python</span><span>ML</span><span>Pyodide</span><span>Security</span></p>
+          </div>
+          <div class="demo-side">
+            <iframe src="demos/password-mutator/" title="Password Mutator live demo" loading="lazy"></iframe>
+            <a class="demo" href="demos/password-mutator/">Open full page →</a>
+          </div>
+        </article>
+
+        <article class="card span3">
           <div class="art pages" aria-hidden="true"></div>
-          <h3>Pintos OS kernel</h3>
+          <h3>Pintos OS Kernel</h3>
           <p class="meta">File systems &amp; virtual memory · Jan–Apr 2026</p>
           <ul>
             <li>Indexed inodes, subdirectories, and a buffer cache with write-behind and read-ahead.</li>
@@ -114,47 +145,17 @@
         </article>
 
         <article class="card span3">
-          <svg class="art" viewBox="0 0 260 100" aria-hidden="true">
-            <rect class="bar b1" x="10" y="70" width="36" height="20" rx="3"/>
-            <rect class="bar b2" x="60" y="56" width="36" height="34" rx="3"/>
-            <rect class="bar b3" x="110" y="40" width="36" height="50" rx="3"/>
-            <rect class="bar b4" x="160" y="24" width="36" height="66" rx="3"/>
-            <rect class="bar b5" x="210" y="6" width="36" height="84" rx="3"/>
-          </svg>
-          <h3>Password strength checker</h3>
-          <p class="meta">Computer Systems Security research · Sep–Dec 2025</p>
-          <ul>
-            <li>Classifies password strength with ML models trained on popular password datasets.</li>
-            <li>Turns memorable strings into strong passwords; co-authored the report on findings and methodology.</li>
-          </ul>
-          <p class="tags"><span>Python</span><span>ML</span><span>Security</span></p>
-        </article>
-
-        <article class="card span3">
-          <div class="art keys" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span><span></span><span></span>
+          <div class="art photos">
+            <img src="images/Bozopad_Complete_sm.jpg" width="529" height="475" loading="lazy" alt="Assembled BOZOPAD with purple and pink keycaps, an OLED screen, and a knob.">
+            <img src="images/Bozopad_PCB_sm.jpg" width="560" height="555" loading="lazy" alt="BOZOPAD PCB layout: 12 key switch footprints, a rotary encoder, and a Pro Micro header.">
           </div>
-          <h3>BOZOPAD macropad kit</h3>
+          <h3>BOZOPAD Macropad Kit</h3>
           <p class="meta">Club / passion project · Oct 2021–Jun 2022</p>
           <ul>
             <li>DIY 12-key macropad; managed a limited production run and organized fundraisers.</li>
             <li>Co-developed the through-hole PCB, firmware (.hex), assembly instructions, and presentations.</li>
           </ul>
           <p class="tags"><span>PCB</span><span>Firmware</span></p>
-        </article>
-
-        <article class="card wide">
-          <div>
-            <h3>Password Mutator (Oct 2025)</h3>
-            <p class="meta">ENEE457 final project research · Python</p>
-            <p>Turns a memorable base phrase into a stronger password. It pads the phrase to a minimum length, then applies
-              leetspeak, case flips, and random character swaps until a heuristic entropy score reaches its target.
-              The original Python runs live in your browser.</p>
-            <p class="tags"><span>Python</span><span>Pyodide</span><span>Security</span></p>
-            <a class="demo" href="demos/password-mutator/">Open full page →</a>
-          </div>
-          <iframe src="demos/password-mutator/" title="Password Mutator live demo" loading="lazy"></iframe>
         </article>
       </div>
     </section>
@@ -210,13 +211,13 @@
       <div class="pubs">
         <a class="card pub" href="https://doi.org/rtx2" target="_blank" rel="noopener">
           <span class="doi">doi.org/rtx2</span>
-          <h3>IoT interoperability testbench <span>· IEEE MNC 2026</span></h3>
+          <h3>IoT Interoperability Testbench <span>· IEEE MNC 2026</span></h3>
           <p>Co-author. Covers the smart-home MQTT testbench, its physical (Raspberry Pi) and digital (Node-RED) versions, and the interoperability results.</p>
           <span class="go">Read paper →</span>
         </a>
         <a class="card pub" href="https://doi.org/rtxz" target="_blank" rel="noopener">
           <span class="doi">doi.org/rtxz</span>
-          <h3>C-V2X conformance analyzer <span>· NIST manuscript</span></h3>
+          <h3>C-V2X Conformance Analyzer <span>· NIST Manuscript</span></h3>
           <p>Contributor. Documents the IoT Device Interoperability Analyzer: its description, functionality, and usage.</p>
           <span class="go">Read manuscript →</span>
         </a>
@@ -227,15 +228,15 @@
       <h2>Toolkit</h2>
       <div class="skills">
         <div class="card">
-          <h3>Embedded &amp; firmware</h3>
+          <h3>Embedded &amp; Firmware</h3>
           <p class="chips"><span>C/C++</span><span>STM32 HAL</span><span>FreeRTOS</span><span>STM32CubeIDE</span><span>I2C</span><span>UART</span><span>MQTT</span><span>MessagePack</span><span>Arduino</span><span>x64/MIPS Assembly</span></p>
         </div>
         <div class="card">
-          <h3>Hardware &amp; test</h3>
+          <h3>Hardware &amp; Test</h3>
           <p class="chips"><span>STM32L475 (Cortex-M)</span><span>Raspberry Pi</span><span>Oscilloscope</span><span>Waveform gen.</span><span>FPGA</span><span>Soldering</span><span>Wireshark</span><span>PSpice</span><span>Vivado</span><span>Verilog</span><span>Fusion 360</span></p>
         </div>
         <div class="card">
-          <h3>Software &amp; security</h3>
+          <h3>Software &amp; Security</h3>
           <p class="chips"><span>Ghidra (SRE)</span><span>Python</span><span>Git</span><span>UNIX/WSL</span><span>Node-RED</span><span>Java</span><span>MATLAB</span><span>MySQL</span><span>Excel</span><span>XML</span><span>LaTeX</span></p>
         </div>
       </div>
@@ -250,11 +251,13 @@
     </section>
 
     <section id="contact" class="wrap contact">
-      <h2>Let's talk!</h2>
+      <h2>Let's Talk!</h2>
       <p>Open to embedded, firmware test, and validation engineering roles in the DC/Baltimore area.</p>
       <p class="links">
-        <a class="btn" href="mailto:tylerwong03@gmail.com">tylerwong03@gmail.com</a>
-        <a class="btn ghost" href="https://linkedin.com/in/tyler-wong-compeng">LinkedIn</a>
+        <a class="btn" href="mailto:tylerwong03@gmail.com">Contact Me</a>
+        <!-- placeholder: point href at the resume PDF once it is in the repo -->
+        <a class="btn ghost" href="#">View Resume</a>
+        <a class="btn ghost" href="https://linkedin.com/in/tyler-wong-compeng">View LinkedIn</a>
       </p>
     </section>
   </main>

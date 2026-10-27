@@ -61,3 +61,35 @@ themeSwitch.addEventListener("click", () => {
   syncSwitch();
 });
 syncSwitch();
+
+// Report figure viewer: show one figure, step with the prev/next buttons (wraps around)
+document.querySelectorAll(".gallery").forEach((g) => {
+  const figs = [...g.querySelectorAll("figure")], count = g.querySelector(".count");
+  let i = 0;
+  g.querySelectorAll("[data-step]").forEach((b) => b.addEventListener("click", () => {
+    figs[i].hidden = true;
+    i = (i + Number(b.dataset.step) + figs.length) % figs.length;
+    figs[i].hidden = false;
+    count.textContent = `${i + 1} / ${figs.length}`;
+  }));
+});
+
+// Click (or Enter/Space) an image to see it large; click anywhere or press Esc to close
+const zoom = document.createElement("dialog");
+zoom.className = "zoom";
+zoom.innerHTML = '<img alt="">';
+document.body.append(zoom);
+zoom.addEventListener("click", () => zoom.close());
+document.querySelectorAll(".photos img, .gallery img").forEach((img) => {
+  img.tabIndex = 0;
+  img.setAttribute("role", "button");
+  const open = () => {
+    zoom.firstChild.src = img.currentSrc || img.src;
+    zoom.firstChild.alt = img.alt;
+    zoom.showModal();
+  };
+  img.addEventListener("click", open);
+  img.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); }
+  });
+});

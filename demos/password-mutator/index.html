@@ -3,12 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Password Mutator — live demo</title>
+  <title>Password Mutator — Live Demo</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="../../style.css?v=7">
+  <link rel="stylesheet" href="../../style.css?v=18">
   <script src="../../theme.js?v=7"></script>
   <style>
-    body { background: var(--surface); padding: 16px; }
+    /* Fill the iframe: extra height goes to the output log, not empty space */
+    body { background: var(--surface); padding: 16px; min-height: 100vh; display: flex; flex-direction: column; }
     form { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; }
     label { font-size: 14px; color: var(--muted); display: grid; gap: 6px; }
     input { font: 16px var(--mono); color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; min-height: 44px; width: 100%; }
@@ -19,13 +20,13 @@
     #handson { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
     #current { font: 500 20px var(--mono); color: var(--accent); word-break: break-all; margin: 4px 0; }
     #status { font-size: 14px; color: var(--muted); min-height: 1.6em; margin: 12px 0 4px; }
-    #out { font: 13px/1.6 var(--mono); white-space: pre-wrap; word-break: break-all; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 12px; height: 150px; overflow-y: auto; margin: 0; }
+    #out { font: 13px/1.6 var(--mono); white-space: pre-wrap; word-break: break-all; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 12px; flex: 1; min-height: 150px; overflow-y: auto; margin: 0; }
     @media (max-width: 480px) { form { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
   <form id="setup" onsubmit="return false">
-    <label>Password base <input id="base" value="correct horse" maxlength="64" autocomplete="off" spellcheck="false"></label>
+    <label>Password base <input id="base" value="really cool password" maxlength="64" autocomplete="off" spellcheck="false"></label>
     <label>Minimum length <input id="len" type="number" min="1" max="64" step="1" value="16" required></label>
   </form>
 
@@ -156,6 +157,10 @@
         render();
       });
     });
+
+    // Give the embedding iframe at least this page's natural height (log at 150px, +2 for iframe borders) so it never scrolls
+    const natural = () => document.body.offsetHeight - out.offsetHeight + 150 + 2;
+    if (frameElement) new ResizeObserver(() => (frameElement.style.minHeight = natural() + "px")).observe(document.body);
   </script>
 </body>
 </html>
