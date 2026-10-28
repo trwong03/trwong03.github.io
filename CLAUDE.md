@@ -14,6 +14,7 @@ no build step, no framework, no package.json. Push to `main` on
   desktop side rail (ticks placed at each section's real offset), theme switch, report figure
   viewer (`.gallery`), click-to-zoom `<dialog class="zoom">` for `.photos img` and `.gallery img`.
 - `portrait.jpg`: hero photo.
+- `twong_resume_v5.1.pdf`: resume. Both "View Resume" buttons (hero + contact) open it in a new tab.
 - `design-system/tyler-wong-portfolio/MASTER.md`: design source of truth (palette, type, motion, rules).
   Read it before any visual change.
 - `demos/`: self-contained live demos, one folder each. `demos/README.md` explains how to add one.
@@ -46,7 +47,6 @@ no build step, no framework, no package.json. Push to `main` on
 - No fade-up-on-scroll.
 
 ## Open items (as of 2026-10-27, last push `2c7df0b`)
-- "View Resume" buttons (hero + contact) link to `#`. Add the resume PDF to the repo and point both at it.
 - `images/Bozopad_Complete.png` / `images/Bozopad_PCB.png` (~700 KB) are unused; delete if not wanted.
 - BOZOPAD card is taller than Pintos beside it, so Pintos has empty space at the bottom.
 - Hover hints and zoom were not checked in a real browser; check both themes and 390px width.
